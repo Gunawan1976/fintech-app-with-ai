@@ -1,0 +1,17 @@
+CREATE TABLE FinanceTable (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    category TEXT NOT NULL,
+    expiryDateMillis INTEGER NOT NULL,
+    price INTEGER NOT NULL
+);
+
+selectAll:
+SELECT * FROM FinanceTable;
+
+insertTransaction:
+INSERT INTO FinanceTable(name, category, expiryDateMillis, price)
+VALUES (?, ?, ?, ?);
+
+deleteTransactionById:
+DELETE FROM FinanceTable WHERE id = ?;
