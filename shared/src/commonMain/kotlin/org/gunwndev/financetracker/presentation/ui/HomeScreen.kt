@@ -14,8 +14,10 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -62,6 +64,8 @@ fun HomeScreen() {
         bottomEnd = 32.dp,
         bottomStart = 8.dp
     )
+    val scrollState = rememberScrollState()
+
     Scaffold(
         topBar = {
             Row(
@@ -154,7 +158,7 @@ fun HomeScreen() {
 
     ) { paddingValues ->
         Column(
-            modifier = Modifier.padding(paddingValues).padding(horizontal = 16.dp)
+            modifier = Modifier.padding(paddingValues).padding(horizontal = 16.dp).verticalScroll(scrollState),
         ) {
             Box(
                 modifier = Modifier

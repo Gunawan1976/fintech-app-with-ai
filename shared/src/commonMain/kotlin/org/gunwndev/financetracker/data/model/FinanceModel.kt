@@ -6,9 +6,10 @@ data class FinanceModel(
     val category: String,
     val expiryDateMillis :Long,
     val price:Int,
-){
-    fun getDaysRemaining(currentDateMillis: Long):Int{
-        val diffMillis = expiryDateMillis - currentDateMillis
-        return (diffMillis / (1000 * 60 * 60 * 24)).toInt()
-    }
-}
+)
+//{
+//    fun getDaysRemaining(currentDateMillis: Long):Int{
+//        val diffMillis = expiryDateMillis - currentDateMillis
+//        return (diffMillis / (1000 * 60 * 60 * 24)).toInt()
+//    }
+//}

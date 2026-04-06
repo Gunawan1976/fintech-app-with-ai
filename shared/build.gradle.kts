@@ -1,4 +1,3 @@
-import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -42,9 +41,11 @@ kotlin {
 
             // Coroutines
             implementation(libs.kotlinx.coroutines.core)
+            implementation("app.cash.sqldelight:coroutines-extensions:2.0.2")
             // Koin
-            implementation(libs.koin.core)
+//            implementation(libs.koin.core)
             implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
 
             // Ktor
             implementation(libs.ktor.client.core)
@@ -52,16 +53,20 @@ kotlin {
             implementation(libs.ktor.serialization.kotlinx.json)
             // Serialization
             implementation(libs.kotlinx.serialization.json)
+            
+            // SqlDelight
+            implementation("app.cash.sqldelight:runtime:2.0.2")
         }
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.compose.uiTooling)
             implementation(libs.ktor.client.okhttp)
-            implementation(libs.sqldelight.android.driver)
+            implementation("app.cash.sqldelight:android-driver:2.0.2")
+            implementation(libs.koin.android)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
-            implementation(libs.sqldelight.native.driver)
+            implementation("app.cash.sqldelight:native-driver:2.0.2")
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -85,8 +90,9 @@ android {
 
 sqldelight {
     databases {
-        create("FinanceDatabase") {
+        create("AppDatabase") {
             packageName.set("org.gunwndev.financetracker.db")
+            dialect("app.cash.sqldelight:sqlite-3-38-dialect:2.0.2")
         }
     }
 }

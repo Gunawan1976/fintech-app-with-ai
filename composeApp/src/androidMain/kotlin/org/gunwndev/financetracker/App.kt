@@ -1,31 +1,62 @@
 package org.gunwndev.financetracker
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.safeContentPadding
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material3.Icon
 import androidx.compose.ui.tooling.preview.Preview
-import org.jetbrains.compose.resources.painterResource
+import org.gunwndev.financetracker.presentation.ui.HomeScreen
 import org.gunwndev.financetracker.presentation.ui.theme.FinanceTrackerTheme
 
-import financetrackerwithai.composeapp.generated.resources.Res
-import financetrackerwithai.composeapp.generated.resources.compose_multiplatform
 import org.gunwndev.financetracker.presentation.ui.SplashScreen
+import org.gunwndev.financetracker.presentation.viewmodel.FinanceViewModel
+import org.koin.compose.viewmodel.koinViewModel
+
+
+enum class BottomNavRoute(
+    val title: String,
+    val icon: @Composable (tint: Color) -> Unit
+) {
+    Home(
+        title = "Home",
+        icon = { tint -> Icon(imageVector = Icons.Default.Home, contentDescription = "Home", tint = tint) }
+    ),
+    Inventory(
+        title = "Inventory",
+        icon = { tint -> Icon(imageVector = Icons.Default.Home, contentDescription = "Inventory", tint = tint) }
+    ),
+    Resep(
+        title = "Resep",
+        icon = { tint -> Icon(imageVector = Icons.Default.Home, contentDescription = "Profile", tint = tint) }
+    ),
+    Profile(
+        title = "Profile",
+        icon = { tint -> Icon(imageVector = Icons.Default.Home, contentDescription = "Profile", tint = tint) }
+    )
+}
+
+enum class FullScreenRoute { Splash, Main }
 
 @Composable
 @Preview
 fun App() {
     FinanceTrackerTheme {
-        var showContent by remember { mutableStateOf(false) }
-        SplashScreen {  }
+        val viewModel = koinViewModel<FinanceViewModel>()
+        val state by viewModel.state.collectAsState()
+
+        var currentScreen by remember { mutableStateOf(FullScreenRoute.Splash) }
+        var currentBottomTab by remember { mutableStateOf(BottomNavRoute.Home) }
+
+        when (currentScreen) {
+            FullScreenRoute.Splash -> SplashScreen(
+                onSwipeComplete = {
+                    currentScreen = FullScreenRoute.Main
+                }
+            )
+            FullScreenRoute.Main -> HomeScreen(
+
+            )
+        }
     }
 }

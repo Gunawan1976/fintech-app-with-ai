@@ -1,4 +1,4 @@
-CREATE TABLE FinanceTable (
+CREATE TABLE FinanceEntity (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     category TEXT NOT NULL,
@@ -7,11 +7,11 @@ CREATE TABLE FinanceTable (
 );
 
 selectAll:
-SELECT * FROM FinanceTable;
+SELECT * FROM FinanceEntity;
 
 insertTransaction:
-INSERT INTO FinanceTable(name, category, expiryDateMillis, price)
-VALUES (?, ?, ?, ?);
+INSERT INTO FinanceEntity(id,name, category, expiryDateMillis, price)
+VALUES (?, ?, ?, ?,?);
 
 deleteTransactionById:
-DELETE FROM FinanceTable WHERE id = ?;
+DELETE FROM FinanceEntity WHERE id = ?;
