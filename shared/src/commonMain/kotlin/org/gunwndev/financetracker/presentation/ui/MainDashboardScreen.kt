@@ -4,27 +4,28 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import org.gunwndev.financetracker.presentation.event.FinanceEvent
 import org.gunwndev.financetracker.presentation.state.FinanceState
 import org.gunwndev.financetracker.presentation.ui.components.CustomBottomNav
 import org.gunwndev.financetracker.presentation.utils.Screens
+import org.gunwndev.financetracker.presentation.viewmodel.FinanceViewModel
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import kotlin.time.ExperimentalTime
 
+@OptIn(ExperimentalTime::class)
 @Composable
-fun MainDashboardScreen(state: FinanceState) {
+fun MainDashboardScreen(state: FinanceState,viewModel: FinanceViewModel) {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
@@ -40,8 +41,18 @@ fun MainDashboardScreen(state: FinanceState) {
         ) {
             composable(Screens.Savings.route) {
                 HomeScreen(
-                    state = FinanceState(),
-                    onAddClick = {}
+                    state =state,
+                    onAddClick = {
+                        viewModel.onEvent(
+                            FinanceEvent.SaveItem(
+                                name = "Item Baru",
+                                category = "Kategori Baru",
+                                expiryDateMillis = 0,
+                                amount = 100,
+                                total_amount = 200
+                            )
+                        )
+                    }
                 )
             }
 
@@ -77,7 +88,8 @@ fun MainDashboardScreen(state: FinanceState) {
 fun MainDashboardScreenPreview() {
     MaterialTheme {
         MainDashboardScreen(
-            state = FinanceState()
+            state = FinanceState(),
+            viewModel = viewModel()
         )
     }
 }

@@ -38,6 +38,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import financetrackerwithai.shared.generated.resources.Res
 import financetrackerwithai.shared.generated.resources.gift
 import financetrackerwithai.shared.generated.resources.hand
@@ -55,6 +56,7 @@ import org.gunwndev.financetracker.presentation.ui.theme.ElectricCyan
 import org.gunwndev.financetracker.presentation.ui.theme.MagentaPink
 import org.gunwndev.financetracker.presentation.ui.theme.NeonGreen
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -68,7 +70,17 @@ fun HomeScreen( state: FinanceState, onAddClick: () -> Unit) {
     val scrollState = rememberScrollState()
 
     Scaffold(
-        topBar = {
+        containerColor = Dark1A,
+        floatingActionButton = {
+            FloatingActionButton(onClick = onAddClick) {
+                Icon(imageVector = Icons.Default.Add, contentDescription = "Add")
+            }
+        }
+
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier.padding(paddingValues).padding(horizontal = 16.dp).verticalScroll(scrollState).safeDrawingPadding(),
+        ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -154,18 +166,6 @@ fun HomeScreen( state: FinanceState, onAddClick: () -> Unit) {
                     }
                 }
             }
-        },
-        containerColor = Dark1A,
-        floatingActionButton = {
-            FloatingActionButton(onClick = onAddClick) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "Add")
-            }
-        }
-
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier.padding(paddingValues).padding(horizontal = 16.dp).verticalScroll(scrollState).safeDrawingPadding(),
-        ) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -330,4 +330,3 @@ fun HomeScreen( state: FinanceState, onAddClick: () -> Unit) {
         }
     }
 }
-

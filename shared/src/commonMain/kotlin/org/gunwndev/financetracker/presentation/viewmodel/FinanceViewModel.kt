@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.gunwndev.financetracker.db.FinanceEntity
+import org.gunwndev.financetracker.domain.entity.TransactionEntitty
 import org.gunwndev.financetracker.domain.repository.FinanceRepository
 import org.gunwndev.financetracker.presentation.event.FinanceEvent
 import org.gunwndev.financetracker.presentation.state.FinanceState
@@ -25,7 +25,7 @@ class FinanceViewModel(private val repository: FinanceRepository): ViewModel() {
         when (event) {
             is FinanceEvent.LoadItems -> loadItems()
             is FinanceEvent.DeleteItem -> deleteItem(event.item)
-            is FinanceEvent.SaveItem -> saveItem(event.name, event.category, event.expiryDateMillis, id = event.id, event.price)
+            is FinanceEvent.SaveItem -> saveItem(event.name, event.category, event.expiryDateMillis, amount =  event.amount, total_amount =  event.total_amount)
         }
     }
 
@@ -43,7 +43,7 @@ class FinanceViewModel(private val repository: FinanceRepository): ViewModel() {
         }
     }
 
-    private fun deleteItem(item: FinanceEntity) {
+    private fun deleteItem(item: TransactionEntitty) {
         viewModelScope.launch {
             repository.deleteItem(item = item)
         }
@@ -53,16 +53,16 @@ class FinanceViewModel(private val repository: FinanceRepository): ViewModel() {
         name: String,
         category: String,
         expiryDateMillis: Long,
-        id: Long,
-        price: Long,
+        amount: Long,
+        total_amount: Long
     ) {
         viewModelScope.launch {
-            val newItem = FinanceEntity(
-                id = id,
+            val newItem = TransactionEntitty(
                 name = name,
                 category = category,
                 expiryDateMillis = expiryDateMillis,
-                price = price
+                amount = amount,
+                totalAmount = total_amount
             )
             repository.insertItem(newItem)
         }
@@ -73,17 +73,4 @@ class FinanceViewModel(private val repository: FinanceRepository): ViewModel() {
 //            _state.value = getTransactions()
 //        }
 //    }
-
-    fun addDummy() {
-        viewModelScope.launch {
-            saveItem(
-                name = "jemboy",
-                category = "jembot",
-                expiryDateMillis =10,
-                id = 1,
-                price = 10000
-            )
-//            load()
-        }
-    }
 }

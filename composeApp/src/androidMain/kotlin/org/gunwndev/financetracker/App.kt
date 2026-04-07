@@ -24,7 +24,7 @@ fun App() {
             SplashScreen(onSwipeComplete = { showMainDashboard = true })
         } else {
             // Kamu bisa kirim state/viewmodel ke MainDashboard jika diperlukan
-            MainDashboardScreen(state = state)
+            MainDashboardScreen(state = state,viewModel)
         }
     }
 }

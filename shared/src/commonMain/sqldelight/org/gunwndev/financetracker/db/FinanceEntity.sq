@@ -3,15 +3,16 @@ CREATE TABLE FinanceEntity (
     name TEXT NOT NULL,
     category TEXT NOT NULL,
     expiryDateMillis INTEGER NOT NULL,
-    price INTEGER NOT NULL
+    amount INTEGER NOT NULL,
+    totalAmount INTEGER NOT NULL
 );
 
 selectAll:
 SELECT * FROM FinanceEntity;
 
 insertTransaction:
-INSERT INTO FinanceEntity(id,name, category, expiryDateMillis, price)
-VALUES (?, ?, ?, ?,?);
+INSERT INTO FinanceEntity(name, category, expiryDateMillis, amount,totalAmount)
+VALUES ( ?, ?, ?,?,?);
 
 deleteTransactionById:
 DELETE FROM FinanceEntity WHERE id = ?;
