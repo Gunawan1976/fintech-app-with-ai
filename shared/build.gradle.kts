@@ -15,7 +15,7 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
+
     listOf(
         iosArm64(),
         iosSimulatorArm64()
@@ -25,7 +25,7 @@ kotlin {
             isStatic = true
         }
     }
-    
+
     sourceSets {
         commonMain.dependencies {
             // Compose
@@ -36,14 +36,14 @@ kotlin {
             implementation(libs.compose.components.resources)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
-            implementation(libs.compose.uiToolingPreview)
             implementation("org.jetbrains.compose.material:material-icons-core:1.7.3")
 
             // Coroutines
             implementation(libs.kotlinx.coroutines.core)
             implementation("app.cash.sqldelight:coroutines-extensions:2.0.2")
+
             // Koin
-//            implementation(libs.koin.core)
+            // implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
 
@@ -51,23 +51,35 @@ kotlin {
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.serialization.kotlinx.json)
+
             // Serialization
             implementation(libs.kotlinx.serialization.json)
-            
+
+            // UI Tooling (✅ INI YANG DIPERBAIKI)
+            implementation(compose.components.uiToolingPreview)
+
             // SqlDelight
             implementation("app.cash.sqldelight:runtime:2.0.2")
+
+            implementation("org.jetbrains.androidx.navigation:navigation-compose:2.9.2")
         }
+
         androidMain.dependencies {
+            // Di androidMain, menggunakan versi libs (AndroidX) tidak masalah
             implementation(libs.compose.uiToolingPreview)
+            implementation(libs.compose.ui)
             implementation(libs.compose.uiTooling)
+            implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.okhttp)
             implementation("app.cash.sqldelight:android-driver:2.0.2")
             implementation(libs.koin.android)
         }
+
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
             implementation("app.cash.sqldelight:native-driver:2.0.2")
         }
+
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }

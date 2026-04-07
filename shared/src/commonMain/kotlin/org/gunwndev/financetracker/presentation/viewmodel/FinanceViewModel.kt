@@ -67,4 +67,23 @@ class FinanceViewModel(private val repository: FinanceRepository): ViewModel() {
             repository.insertItem(newItem)
         }
     }
+
+//    fun load() {
+//        viewModelScope.launch {
+//            _state.value = getTransactions()
+//        }
+//    }
+
+    fun addDummy() {
+        viewModelScope.launch {
+            saveItem(
+                name = "jemboy",
+                category = "jembot",
+                expiryDateMillis =10,
+                id = 1,
+                price = 10000
+            )
+//            load()
+        }
+    }
 }
