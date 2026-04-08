@@ -16,6 +16,7 @@ class FinanceRepositoryImpl(
         return queries.selectAll().asFlow().map {
             it.executeAsList().map { entity ->
                 TransactionEntitty(
+                    id = entity.id,
                     category = entity.category,
                     expiryDateMillis = entity.expiryDateMillis,
                     amount = entity.amount,
@@ -27,7 +28,16 @@ class FinanceRepositoryImpl(
     }
 
     override suspend fun getItemById(id: Int): TransactionEntitty? {
-        TODO("Not yet implemented")
+        return queries.selectById(id.toLong()).executeAsOneOrNull()?.let { entity ->
+            TransactionEntitty(
+                id = entity.id,
+                category = entity.category,
+                expiryDateMillis = entity.expiryDateMillis,
+                amount = entity.amount,
+                totalAmount = entity.totalAmount,
+                name = entity.name
+            )
+        }
     }
 
     override suspend fun insertItem(item: TransactionEntitty) {
@@ -41,24 +51,8 @@ class FinanceRepositoryImpl(
     }
 
     override suspend fun deleteItem(item: TransactionEntitty) {
-        TODO("Not yet implemented")
+        item.id?.let {
+            queries.deleteTransactionById(it)
+        }
     }
-
-//    override suspend fun getTransactions(): List<Transacter.Transaction> {
-//        return queries.selectAll()
-//            .executeAsList()
-//            .map {
-//                Transacter.Transaction(
-//                    id = it.id,
-//                    amount = it.amount
-//                )
-//            }
-//    }
-//
-//    override suspend fun addTransaction(transaction: Transacter.Transaction) {
-//        queries.insertTransaction(
-//            id = transaction.id,
-//            amount = transaction.amount
-//        )
-//    }
 }

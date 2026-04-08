@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -71,22 +72,13 @@ fun HomeScreen( state: FinanceState, onAddClick: () -> Unit) {
 
     Scaffold(
         containerColor = Dark1A,
-        floatingActionButton = {
-            FloatingActionButton(onClick = onAddClick) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "Add")
-            }
-        }
-
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier.padding(paddingValues).padding(horizontal = 16.dp).verticalScroll(scrollState).safeDrawingPadding(),
-        ) {
+        topBar = {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(Dark1A)
                     // Padding aman untuk status bar (atas) dan jarak sisi (kiri-kanan)
-                    .padding(horizontal = 20.dp, vertical = 16.dp),
+                    .padding(horizontal = 20.dp, vertical = 16.dp).statusBarsPadding(),
                 horizontalArrangement = Arrangement.SpaceBetween, // Dorong konten ke ujung kiri dan kanan
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -166,6 +158,17 @@ fun HomeScreen( state: FinanceState, onAddClick: () -> Unit) {
                     }
                 }
             }
+        }
+//        floatingActionButton = {
+//            FloatingActionButton(onClick = onAddClick) {
+//                Icon(imageVector = Icons.Default.Add, contentDescription = "Add")
+//            }
+//        }
+
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier.padding(paddingValues).padding(horizontal = 16.dp).verticalScroll(scrollState).safeDrawingPadding(),
+        ) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -278,55 +281,75 @@ fun HomeScreen( state: FinanceState, onAddClick: () -> Unit) {
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            GoalsTrackerCard()
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            )
+            {
+                GoalsTrackerCard(height = 120.dp, fontSize = 24.sp)
+                SpendeesCard(height = 120.dp)
+            }
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            SpendeesCard()
 
-            when {
-                state.isLoading -> {
-                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        CircularProgressIndicator()
-                    }
-                }
-
-                state.error != null -> {
-                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        Text(
-                            text = "Error: ${state.error}",
-                            color = MaterialTheme.colorScheme.error
-                        )
-                    }
-                }
-
-                state.items.isEmpty() -> {
-                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        Text(
-                            text = "Pantry masih kosong. Yuk tambah barang!",
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = Color.White,
-                            modifier = Modifier.padding(horizontal = 16.dp)
-                        )
-                    }
-                }
-
-                else -> {
-                    Spacer(modifier = Modifier.height(24.dp))
-
-                    state.items.forEach { item ->
-                        Box(
-                            modifier = Modifier.padding(top = 8.dp, start = 12.dp, end = 12.dp)
-                        ) {
-                            Text(item.name, color = Color.White)
-                        }
-                        Spacer(modifier = Modifier.height(8.dp))
-                    }
-
-                    Spacer(modifier = Modifier.height(100.dp)) // Ruang untuk Bottom Nav
-                }
-            }
+//            when {
+//                state.isLoading -> {
+//                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+//                        CircularProgressIndicator()
+//                    }
+//                }
+//
+//                state.error != null -> {
+//                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+//                        Text(
+//                            text = "Error: ${state.error}",
+//                            color = MaterialTheme.colorScheme.error
+//                        )
+//                    }
+//                }
+//
+//                state.items.isEmpty() -> {
+//                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+//                        Text(
+//                            text = "Pantry masih kosong. Yuk tambah barang!",
+//                            style = MaterialTheme.typography.bodyLarge,
+//                            color = Color.White,
+//                            modifier = Modifier.padding(horizontal = 16.dp)
+//                        )
+//                    }
+//                }
+//
+//                else -> {
+//                    Spacer(modifier = Modifier.height(24.dp))
+//
+//                    state.items.forEach { item ->
+//                        Box(
+//                            modifier = Modifier.padding(top = 8.dp, start = 12.dp, end = 12.dp)
+//                        ) {
+//                            Text(item.name, color = Color.White)
+//                        }
+//                        Spacer(modifier = Modifier.height(8.dp))
+//                    }
+//
+//                    Spacer(modifier = Modifier.height(100.dp)) // Ruang untuk Bottom Nav
+//                }
+//            }
 
         }
+    }
+}
+
+@Preview
+@Composable
+fun HomeScreenPreview() {
+    MaterialTheme {
+        HomeScreen(
+            state = FinanceState(),
+            onAddClick = {}
+
+        )
     }
 }

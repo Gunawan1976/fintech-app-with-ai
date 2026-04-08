@@ -14,4 +14,6 @@ sealed interface FinanceEvent{
         val amount:Long,
         val total_amount:Long
     ) : FinanceEvent
+
+    object DismissSheet : FinanceEvent
 }

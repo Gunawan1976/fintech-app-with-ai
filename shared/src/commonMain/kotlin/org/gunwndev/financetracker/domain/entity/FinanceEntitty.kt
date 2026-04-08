@@ -1,6 +1,7 @@
 package org.gunwndev.financetracker.domain.entity
 
 data class TransactionEntitty (
+    public val id: Long? = null,
     public val name: String,
     public val category: String,
     public val expiryDateMillis: Long,

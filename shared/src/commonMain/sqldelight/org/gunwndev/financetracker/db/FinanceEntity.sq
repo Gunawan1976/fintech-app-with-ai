@@ -10,6 +10,9 @@ CREATE TABLE FinanceEntity (
 selectAll:
 SELECT * FROM FinanceEntity;
 
+selectById:
+SELECT * FROM FinanceEntity WHERE id = ?;
+
 insertTransaction:
 INSERT INTO FinanceEntity(name, category, expiryDateMillis, amount,totalAmount)
 VALUES ( ?, ?, ?,?,?);

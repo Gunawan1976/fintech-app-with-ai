@@ -62,6 +62,9 @@ kotlin {
             implementation("app.cash.sqldelight:runtime:2.0.2")
 
             implementation("org.jetbrains.androidx.navigation:navigation-compose:2.9.2")
+
+            implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")
+
         }
 
         androidMain.dependencies {

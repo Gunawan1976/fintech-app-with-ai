@@ -26,6 +26,9 @@ class FinanceViewModel(private val repository: FinanceRepository): ViewModel() {
             is FinanceEvent.LoadItems -> loadItems()
             is FinanceEvent.DeleteItem -> deleteItem(event.item)
             is FinanceEvent.SaveItem -> saveItem(event.name, event.category, event.expiryDateMillis, amount =  event.amount, total_amount =  event.total_amount)
+            is FinanceEvent.DismissSheet -> {
+                _state.update { it.copy(isSheetOpen = false) }
+            }
         }
     }
 

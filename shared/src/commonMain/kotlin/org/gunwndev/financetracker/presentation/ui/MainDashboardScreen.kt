@@ -57,7 +57,23 @@ fun MainDashboardScreen(state: FinanceState,viewModel: FinanceViewModel) {
             }
 
             composable(Screens.Goals.route) {
-                GoalScreen()
+                GoalScreen(
+                    state =state,
+                    onSave = { name, category, expiryDateMillis,amount,total_amount ->
+                        viewModel.onEvent(
+                            FinanceEvent.SaveItem(
+                                name = name,
+                                category = category,
+                                expiryDateMillis = expiryDateMillis,
+                                amount = amount,
+                                total_amount = total_amount
+                            )
+                        )
+                    },
+                    onDelete = { item ->
+                        viewModel.onEvent(FinanceEvent.DeleteItem(item))
+                    }
+                )
             }
         }
 

@@ -21,6 +21,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -29,7 +30,9 @@ fun GoalsTrackerCard(
     percentage: Int = 73,
     currentSaved: String = "15,750",
     targetSaved: String = "35,500",
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    height: Dp?,
+    fontSize: TextUnit?
 ) {
     // 1. Definisi Warna
     val CardBackground = Color(0xFF141915)
@@ -57,7 +60,7 @@ fun GoalsTrackerCard(
         modifier = modifier
             .clip(cardShape)
             .background(backgroundBrush)
-            .padding(24.dp)
+            .padding(18.dp)
     ) {
         Column {
             // --- HEADER: Teks GOALS TRACKER ---
@@ -74,7 +77,8 @@ fun GoalsTrackerCard(
             // --- TENGAH: Segmented Circular Progress ---
             Box(
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .height(height ?: 200.dp)
+                    .width(150.dp)
                     .aspectRatio(1f), // Buat jadi persegi sempurna
                 contentAlignment = Alignment.Center
             ) {
@@ -131,7 +135,7 @@ fun GoalsTrackerCard(
                     Text(
                         text = "$percentage%",
                         color = Color.White,
-                        fontSize = 42.sp,
+                        fontSize = fontSize ?: 42.sp,
                         fontWeight = FontWeight.Bold
                     )
                 }

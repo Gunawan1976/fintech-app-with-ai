@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun SpendeesCard(modifier: Modifier = Modifier) {
+fun SpendeesCard(modifier: Modifier = Modifier,height: Dp?) {
     // 1. Definisi Warna Gelap & Warna Gradient Gelembung
     val CardBg = Color(0xFF141416) // Latar hitam/abu sangat gelap
 
@@ -43,12 +43,11 @@ fun SpendeesCard(modifier: Modifier = Modifier) {
         modifier = modifier
             .clip(cardShape)
             .background(CardBg)
-            .padding(24.dp)
+            .padding(18.dp)
     ) {
         Column {
             // --- HEADER ---
             Row(
-                modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -70,8 +69,9 @@ fun SpendeesCard(modifier: Modifier = Modifier) {
             // Menggunakan Box agar bisa tumpang tindih (overlap)
             Box(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(220.dp),
+                    .height(height ?:220.dp)
+                    .width(150.dp)
+                    .aspectRatio(1f), // Buat jadi persegi sempurna,
                 contentAlignment = Alignment.Center
             ) {
                 // Gelembung 1: ESSENTIALS (Paling Besar, di belakang/tengah)
