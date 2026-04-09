@@ -42,17 +42,20 @@ fun MainDashboardScreen(state: FinanceState,viewModel: FinanceViewModel) {
             composable(Screens.Savings.route) {
                 HomeScreen(
                     state =state,
-                    onAddClick = {
-                        viewModel.onEvent(
-                            FinanceEvent.SaveItem(
-                                name = "Item Baru",
-                                category = "Kategori Baru",
-                                expiryDateMillis = 0,
-                                amount = 100,
-                                total_amount = 200
-                            )
-                        )
-                    }
+                    onClick = {
+                        // Ubah dari viewModel.onEvent menjadi navigasi
+                        navController.navigate(Screens.Goals.route) {
+                            // Opsional: Gunakan standar navigasi agar tidak numpuk backstack
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    },
+                    onRewardsClick = {},
+                    onChallengeClick = {},
+                    onLogSpendClick = {}
                 )
             }
 

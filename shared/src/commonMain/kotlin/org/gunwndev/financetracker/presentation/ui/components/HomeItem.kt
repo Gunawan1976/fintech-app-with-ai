@@ -3,6 +3,7 @@ package org.gunwndev.financetracker.presentation.ui.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -24,7 +25,7 @@ import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
-fun HomeItemComponents(color: Color, icon: DrawableResource, text: String){
+fun HomeItemComponents(color: Color, icon: DrawableResource, text: String,onClick: () -> Unit){
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -33,6 +34,9 @@ fun HomeItemComponents(color: Color, icon: DrawableResource, text: String){
                 .size(85.dp)
                 .clip(CircleShape)
                 .background(color)
+                .clickable(
+                    onClick = onClick
+                )
                 .border(
                     2.dp,
                     Color.White,

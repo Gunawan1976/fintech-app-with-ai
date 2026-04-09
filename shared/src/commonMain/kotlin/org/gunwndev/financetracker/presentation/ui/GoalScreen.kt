@@ -2,9 +2,7 @@ package org.gunwndev.financetracker.presentation.ui
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
@@ -17,19 +15,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.BottomSheetDefaults
@@ -47,8 +42,6 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SuggestionChip
-import androidx.compose.material3.SuggestionChipDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -77,23 +70,14 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import financetrackerwithai.shared.generated.resources.Res
-import financetrackerwithai.shared.generated.resources.notification
 import org.gunwndev.financetracker.domain.entity.TransactionEntitty
 import org.gunwndev.financetracker.presentation.state.FinanceState
 import org.gunwndev.financetracker.presentation.ui.components.CircularProgressWithText
-import org.gunwndev.financetracker.presentation.ui.components.SuccessBottomSheet
-import org.gunwndev.financetracker.presentation.ui.theme.CyberYellow
 import org.gunwndev.financetracker.presentation.ui.theme.Dark1A
-import org.gunwndev.financetracker.presentation.ui.theme.MagentaPink
 import org.gunwndev.financetracker.presentation.ui.theme.NeonGreen
-import org.gunwndev.financetracker.presentation.ui.theme.Surface
 import org.gunwndev.financetracker.presentation.utils.categories
 import org.gunwndev.financetracker.presentation.utils.formatMillisToDateString
 import org.gunwndev.financetracker.presentation.utils.formatWithCommas
-import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
@@ -118,7 +102,7 @@ fun GoalScreen(
 
     val scrollState = rememberScrollState()
 
-    val totalSaved = remember(state.items) {
+    val currentSaved = remember(state.items) {
         state.items.sumOf { it.amount }
     }
 
@@ -131,8 +115,8 @@ fun GoalScreen(
     var selectedItemForDelete by remember { mutableStateOf<TransactionEntitty?>(null) }
 
 // Menghitung persentase keseluruhan (untuk progress bar lingkaran)
-    val totalPercentageValue = remember(totalSaved, totalTarget) {
-        if (totalTarget > 0) (totalSaved.toFloat() / totalTarget.toFloat()) else 0f
+    val totalPercentageValue = remember(currentSaved, totalTarget) {
+        if (totalTarget > 0) (currentSaved.toFloat() / totalTarget.toFloat()) else 0f
     }
 
 // Buat string format manual untuk tampilan Text agar tidak error 'format'
@@ -222,7 +206,7 @@ fun GoalScreen(
                 state.items.isEmpty() -> {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                         Text(
-                            text = "Pantry masih kosong. Yuk tambah barang!",
+                            text = "Data masih kosong",
                             style = MaterialTheme.typography.bodyLarge,
                             color = Color.White,
                             modifier = Modifier.padding(horizontal = 16.dp)
@@ -248,7 +232,7 @@ fun GoalScreen(
                             )
 
                             Text(
-                                text = totalSaved.formatWithCommas(),
+                                text = currentSaved.formatWithCommas(),
                                 color = Color.White,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 70.sp
